@@ -1,7 +1,7 @@
 # Genesis 
 
 
-<a href="https://vimeo.com/709884270"> Link to Project Demo </a>
+<a href="https://vimeo.com/709884270"> Link to Project Demonstration </a>
 
 ![Genesis world screenshot](https://github.com/AakSin/aaksin-public/blob/main/genesis/3498ba743b114470404ecbc99d13ce0d.gif)
 
