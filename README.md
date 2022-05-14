@@ -1,10 +1,13 @@
 # Genesis 
-## A VR Final Project
-![Genesis world screenshot](https://user-images.githubusercontent.com/38569809/168379443-97759a3d-8d55-4065-ac72-7d8a3ae4a584.png)
+
+
+<a href="https://vimeo.com/709884270"> Link to Project Demo </a>
+
+![Genesis world screenshot](https://github.com/AakSin/aaksin-public/blob/main/genesis/3498ba743b114470404ecbc99d13ce0d.gif)
 
 Software code hosted live on <a href="https://glitch.com/edit/#!/aframesockets"> https://glitch.com/edit/#!/aframesockets </a>.
 
-Hardware code is present in <a href="https://github.com/AakSin/IntroToIM/blob/main/finalProject/Wireless_code.ino"> this repo </a>.
+Hardware code is present in the repo.
 
 Project hosted live on <a href="https://aframesockets.glitch.me/"> https://aframesockets.glitch.me/ </a>.
   
@@ -12,7 +15,11 @@ Project hosted live on <a href="https://aframesockets.glitch.me/"> https://afram
  
  The project is a VR experience titled 'Genesis' set to <a href="https://www.youtube.com/watch?v=1FH-q0I1fJY"> Genesis by Grimes </a>. The visual experience involves spheres revolving around to form patterns and shapes. When connected to our controller made using an Arduino, you can control these patterns by tilting the device. 
  
- The concept of Genesis is to give the user an illusion of creation - which is demonstrated in the visuals in the form of control of particles in an alternate universe with nothing but red towers around. 
+You can tilt the controller in x-axis to spread the particles or bring them closer, on the y-axis to fasten or slow their rotation and on the z-axis to change their color.
+
+There are also 2 buttons present to make you go up and down in this spiral and the closer you get to the ground, the louder the music becomes
+ 
+ The concept of Genesis is to give the user an illusion of creation - which is demonstrated in the visuals in the form of control of particles in an alternate universe with nothing but towers around. 
  
  ## Inspiration
  
