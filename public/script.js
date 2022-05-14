@@ -1,11 +1,13 @@
 let camera;
 let parentEntityEl;
 let sceneEl;
+
 // animation variables
 let duration = 5000;
 let color = Math.floor(Math.random() * 16777215).toString(16);
 
 let socket = io(); //opens and connects to the socket
+
 socket.on("cameraMove", (yPos) => {
   // console.log(yPos);
   camera.setAttribute("position", {
@@ -14,9 +16,10 @@ socket.on("cameraMove", (yPos) => {
     z: 0,
   });
 });
+
 socket.on("rotationDur", (duration) => {
   console.log(Math.floor(duration));
-
+//   iterate through all spheres and set the new duration
   let allParents = document.querySelectorAll(".parent");
   for (let i = 0; i < allParents.length; i++) {
     // print(allParents[i]);
@@ -53,6 +56,9 @@ socket.on("spread", (spread) => {
   let allSpheres = document.querySelectorAll("a-sphere");
   for (let i = 0; i < allSpheres.length; i++) {
     // print(allParents[i]);
+    
+//     as the values in this case were iteratively assigned and I couldn't hard code it, I had to access the values of the spheres out first
+//     so that I could keep the from values same in the re-assignemnt of the animation
     let oldValues = allSpheres[i].getAttribute("animation");
 
     let newY = 1+ ((oldValues.to.y / 20) * Math.floor(spread));
@@ -76,6 +82,7 @@ function setup() {
  
 }
 function touchStarted(){
+//   bind music to the ground upon clickin on the phone/starts audio
    let environment = document.querySelector("#environment");
   environment.setAttribute("sound", {
     src: "#song",
@@ -85,6 +92,7 @@ function touchStarted(){
   });
 }
 function keyPressed() {
+  //   bind music to the ground upon clickin on the spacebar on laptop/starts audio
   if (key == " ") {
      let environment = document.querySelector("#environment");
   environment.setAttribute("sound", {
@@ -95,7 +103,7 @@ function keyPressed() {
     setUpSerial();
   }
 }
-let y = 50;
+
 function readSerial(data) {
   ////////////////////////////////////
   //READ FROM ARDUINO HERE
@@ -109,38 +117,26 @@ function readSerial(data) {
     socket.emit("xOrient", map(data[0], -1.5, 1.5, 0, 20000));
     socket.emit("yOrient", map(data[1], -1.5, 1.5, 0, 20000));
     socket.emit("zOrient", map(data[2], -1.5, 1.5, 10, 240));
+    
     if (data[5] == 1) {
       socket.emit("cameraUp");
     }
     if (data[4] == 1) {
       socket.emit("cameraDown");
     }
-    // socket.emit("zOrient", map(data[2], -1, 1, -1, 1));
-    // socket.emit("orientation", data[3]);
-
-    // let fromArduino = split(trim(data), ",");
-    // // if the right length, then proceed
-    // if (fromArduino.length == 2) {
-    //   // only store values here
-    //   // do everything with those values in the main draw loop
-    //   rVal = fromArduino[0];
-    //   alpha = fromArduino[1];
-    // }
-
-    //////////////////////////////////
-    //SEND TO ARDUINO HERE (handshake)
-    //////////////////////////////////
-    // let sendToArduino = left + "," + right + "\n";
-    // writeSerial("aakarsh");
+    
   }
 }
 /*
 
 */ window.addEventListener("load", () => {
   sceneEl = document.querySelector("a-scene");
-  let entity = document.querySelector("a-entity");
+//   this is the evi
+   let environment = document.querySelector("#environment");
   camera = document.querySelector("#rig");
-  entity.setAttribute("animation", {
+//   I left this in place because earlier the seed was being animated (hence the chaning buildings). In case I wanted that option back
+//   I would just have to change the To value in here
+  environment.setAttribute("animation", {
     property: "environment.seed",
     from: 1,
     to: 1,
@@ -152,16 +148,19 @@ function readSerial(data) {
 
   const circleNo = 9;
 
+//   I decidded to make createLight my own function since I was doing it so many times
   createLight("1 0 1", "red");
   createLight("-1 0 1", "blue");
   // createLight("0 0 1","white");
   // createLight("0 0 -1","white");
 
   createSky();
-  let rVal = 0;
+  
+  
+
   for (let i = 0; i < 50; i++) {
-    rVal += 5;
-    // rVal %= 250
+//   all 9 balls would lie on one parent entity which rotated
+//     there would be 50 of such parent entities
     parentEntityEl = document.createElement("a-entity");
     parentEntityEl.classList.add("parent");
     parentEntityEl.setAttribute("position", {
@@ -187,40 +186,20 @@ function readSerial(data) {
 
       easing: "easeOutCubic",
     });
-    // for (let j = 0; j < circleNo; j++) {
-    //   let entityEl = document.createElement("a-sphere");
-
-    //   // Do `.setAttribute()`s to initialize the entity.
-    //   entityEl.setAttribute("geometry", {
-    //     radius: "1",
-    //   });
-
-    //   // console.log(Math.cos(i*(Math.PI/circleNo)*4),Math.sin(i*(Math.PI/circleNo)*4) )
-    //   entityEl.setAttribute("position", {
-    //     x: Math.cos(j * ((Math.PI * 2) / circleNo)) * 4,
-    //     y: Math.sin(j * ((Math.PI * 2) / circleNo)) * 4,
-    //     z: -9,
-    //   });
-    //   parentEntityEl.appendChild(entityEl);
-    // }
+    
     for (let j = 0; j < circleNo; j++) {
       let entityEl = document.createElement("a-sphere");
-      // let color =`rgb(${rVal},165,0)`;
-      // let ballColor = Math.floor(Math.random()*16777215).toString(16);
+     
       let ballColor = "rgb(255,255,255)";
-      // Do `.setAttribute()`s to initialize the entity.
+
       entityEl.setAttribute("geometry", {
         radius: "0.5",
       });
       entityEl.setAttribute("material", {
-        // color: "white",
+
         color: ballColor,
       });
-      // entityEl.setAttribute("material", {
-      //   shader: "flat",
-      // });
-      // console.log(Math.cos(i*(Math.PI/circleNo)*4),Math.sin(i*(Math.PI/circleNo)*4) )
-
+     
       entityEl.setAttribute("animation__shrink", {
         property: "geometry.radius",
         delay: i * 100,
@@ -233,6 +212,7 @@ function readSerial(data) {
 
         dir: "alternate",
       });
+//       arrange them in a circle
       entityEl.setAttribute("animation", {
         property: "position",
         delay: i * 100,
